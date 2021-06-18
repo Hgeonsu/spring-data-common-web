@@ -1,5 +1,7 @@
 package me.geonsu.springdatacommonweb.post;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,5 +25,10 @@ public class PostController {
         // 변수 이름이랑 path로 넘어오는 이름이랑 같으면 애노테이션에 명시 생략 가능
 
         return post.getTitle(); //null이 나올 수도 있음
+    }
+
+    @GetMapping("/posts")
+    public Page<Post> getPosts(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 }
