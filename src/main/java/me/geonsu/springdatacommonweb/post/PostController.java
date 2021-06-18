@@ -19,12 +19,9 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    public String getPost(@PathVariable Long id) {
+    public String getPost(@PathVariable("id") Post post) { //Domain Class Converter 동작
         // 변수 이름이랑 path로 넘어오는 이름이랑 같으면 애노테이션에 명시 생략 가능
-        // 바인딩을 Long으로 받았으니 스프링mvc 웹데이터바인더가 타입 바인딩을 해준다.(원래 문자열로 들어옴)
 
-        Optional<Post> byId = postRepository.findById(id);
-        Post post = byId.get();
         return post.getTitle(); //null이 나올 수도 있음
     }
 }
