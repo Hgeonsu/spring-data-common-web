@@ -3,6 +3,8 @@ package me.geonsu.springdatacommonweb.post;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -61,7 +63,10 @@ public class PostRepositoryTest {
         post.setTitle("Spring");
         postRepository.save(post);
 
-        List<Post> all = postRepository.findByTitle("Spring");
+        List<Post> all = postRepository.findByTitle("Spring", Sort.by("title"));
+        // 정렬 조건은 프로퍼티 또는 사용한 alias로만 가능. LENGTH(title) 이런거 불가
+
+        all = postRepository.findByTitle("Spring", JpaSort.unsafe("LENGTH(title)"));
         assertThat(all.size()).isEqualTo(1);
     }
 }
