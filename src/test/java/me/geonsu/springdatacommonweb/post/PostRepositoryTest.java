@@ -95,8 +95,13 @@ public class PostRepositoryTest {
         Post spring = savePost("Spring");
         spring.setTitle("hibernate");
 
-        List<Post> all = postRepository.findAll();
+        // insert update select 모두 발생
+        List<Post> all = postRepository.findAll(); // findAll 이기 때문에 transaction 외부의 변경까지 고려해야 하므로 DB와 sync
         assertThat(all.get(0).getTitle()).isEqualTo("hibernate");
+
+
+        Optional<Post> byId = postRepository.findById(1l); // persistent context가 알고있는 id에 대한 질의이기 때문에 캐시로 처리
+        assertThat(byId.get().getTitle()).isEqualTo("hibernate");
     }
 }
 
