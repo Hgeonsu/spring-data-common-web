@@ -2,16 +2,33 @@ package me.geonsu.springdatacommonweb.post;
 
 import org.springframework.beans.factory.annotation.Value;
 
-public interface CommentSummary {
+public class CommentSummary {
 
-    String getComment();
+    private String comment;
 
-    int getUp();
+    private int up;
 
-    int getDown();
+    private int down;
 
-    // open projection
-    @Value("#{target.up + ' ' + target.down}")
-    String getVotes();
+    public CommentSummary(String comment, int up, int down) {
+        this.comment = comment;
+        this.up = up;
+        this.down = down;
+    }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public int getUp() {
+        return up;
+    }
+
+    public int getDown() {
+        return down;
+    }
+
+    public String getVotes() {
+        return this.up + " " + this.down;
+    }
 }

@@ -23,6 +23,7 @@ public class CommentRepositoryTest {
         Post savedPost = postRepository.save(post);
 
         Comment comment = new Comment();
+        comment.setComment("spring data jpa projection");
         comment.setPost(savedPost);
         comment.setUp(10);
         comment.setDown(1);
