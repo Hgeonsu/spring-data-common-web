@@ -18,15 +18,6 @@ public class CommentRepositoryTest {
 
     @Test
     public void getComment() {
-//        Post post = new Post();
-//        post.setTitle("jpa");
-//        Post savedPost = postRepository.save(post);
-//
-//        Comment comment = new Comment();
-//        comment.setComment("comment");
-//        comment.setPost(savedPost);
-//        commentRepository.save(comment);
-
         Optional<Comment> byId = commentRepository.findById(1l);
     }
 }
