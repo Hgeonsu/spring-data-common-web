@@ -4,6 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+// 지저분, JPQL, SQL 많이 생김. 대신 repository method에 @Query 쓰는 게 나음
+// title이 첫번째 인자와 같으면 찾아달라 (JPQL)
+//@NamedQuery(name = "post.findByTitle", query = "SELECT p FROM Post AS p WHERE p.title = ?1")
 public class Post {
 
     @Id @GeneratedValue

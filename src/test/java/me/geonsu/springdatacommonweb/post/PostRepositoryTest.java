@@ -44,4 +44,39 @@ public class PostRepositoryTest {
         List<Post> all = postRepository.findAll(); // 이 두 라인이 없었으면 insert를 하지 않음.
         assertThat(all.size()).isEqualTo(1);
     }
+
+    @Test
+    public void findByTitleStartsWith() {
+        Post post = new Post();
+        post.setTitle("Spring Data Jpa");
+        postRepository.save(post);
+
+        List<Post> all = postRepository.findByTitleStartsWith("Spring");
+        assertThat(all.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void findByTitle() {
+        Post post = new Post();
+        post.setTitle("Spring");
+        postRepository.save(post);
+
+        List<Post> all = postRepository.findByTitle("Spring");
+        assertThat(all.size()).isEqualTo(1);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
