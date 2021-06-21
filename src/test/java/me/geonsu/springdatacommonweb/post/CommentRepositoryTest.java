@@ -18,6 +18,6 @@ public class CommentRepositoryTest {
 
     @Test
     public void getComment() {
-        Optional<Comment> byId = commentRepository.findById(1l);
+        commentRepository.findByPost_Id(1l);
     }
 }
