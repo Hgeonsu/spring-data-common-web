@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.JpaSort;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,9 +50,7 @@ public class PostRepositoryTest {
 
     @Test
     public void findByTitleStartsWith() {
-        Post post = new Post();
-        post.setTitle("Spring Data Jpa");
-        postRepository.save(post);
+        savePost("Spring Data Jpa");
 
         List<Post> all = postRepository.findByTitleStartsWith("Spring");
         assertThat(all.size()).isEqualTo(1);
@@ -59,15 +58,45 @@ public class PostRepositoryTest {
 
     @Test
     public void findByTitle() {
-        Post post = new Post();
-        post.setTitle("Spring");
-        postRepository.save(post);
+        savePost("Spring");
 
         List<Post> all = postRepository.findByTitle("Spring", Sort.by("title"));
         // 정렬 조건은 프로퍼티 또는 사용한 alias로만 가능. LENGTH(title) 이런거 불가
 
         all = postRepository.findByTitle("Spring", JpaSort.unsafe("LENGTH(title)"));
         assertThat(all.size()).isEqualTo(1);
+    }
+
+    private Post savePost(String spring) {
+        Post post = new Post();
+        post.setTitle(spring);
+        return postRepository.save(post);
+    }
+
+    @Test
+    public void updateTitle() {
+        Post spring = savePost("Spring");
+        int update = postRepository.updateTitle("hibernate", spring.getId());
+        assertThat(update).isEqualTo(1);
+
+        /*
+        update 쿼리는 날아갔지만, spring 이라는 post가 여전히 persistent 상태로 캐시가 되어있기 때문에,
+        아래의 조회에서 title이 "Spring"으로 찍힌다. select 쿼리가 발생한 적이 없기때문에 캐시에 변화가 없다.
+        @Modifying 애너테이션에 옵션을 통해 persistent context 를 clear 해주면, persistent 상태가 아니게 되기 때문에
+        findById 할 때 다시 DB에서 select 쿼리가 발생하기 때문에 갱신된 값을 읽어올 수 있다.
+        권장하는 방법은 아님
+         */
+        Optional<Post> byId = postRepository.findById(spring.getId());
+        assertThat(byId.get().getTitle()).isEqualTo("hibernate");
+    }
+
+    @Test
+    public void updateTitle2() {
+        Post spring = savePost("Spring");
+        spring.setTitle("hibernate");
+
+        List<Post> all = postRepository.findAll();
+        assertThat(all.get(0).getTitle()).isEqualTo("hibernate");
     }
 }
 
