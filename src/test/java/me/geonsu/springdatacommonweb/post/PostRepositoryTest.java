@@ -34,7 +34,7 @@ public class PostRepositoryTest {
         Post postUpdate = new Post();
         postUpdate.setId(post.getId());
         postUpdate.setTitle("hibernate");
-        Post updatedPost = postRepository.save(postUpdate);// merge (Persistent -> Detached 상태)
+        Post updatedPost = postRepository.save(postUpdate);// merge (Detached-> Persistent 상태)
         // update 쿼리가 발생하고, jpa 대신 hibernate가 값을 update 한다
 
         assertThat(entityManager.contains(updatedPost)).isTrue();
