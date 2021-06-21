@@ -3,6 +3,7 @@ package me.geonsu.springdatacommonweb.post;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -10,7 +11,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+//@DataJpaTest // slicing test -> data 관련된 계층에 관련된 bean만 등록하고, @Service 붙은 bean 같은 건 등록이 안 됨
+@SpringBootTest
 public class CommentRepositoryTest {
     @Autowired
     CommentRepository commentRepository;

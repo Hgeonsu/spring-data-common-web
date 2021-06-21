@@ -1,8 +1,16 @@
 package me.geonsu.springdatacommonweb.post;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
     @Id @GeneratedValue
     private Long id;
@@ -21,6 +29,20 @@ public class Comment {
     private int down;
 
     private boolean best;
+
+    @CreatedDate
+    private Date created;
+
+    @CreatedBy
+    @ManyToOne
+    private Account createdBy;
+
+    @LastModifiedDate
+    private Date updated;
+
+    @LastModifiedBy
+    @ManyToOne
+    private Account updatedBy;
 
     public Long getId() {
         return id;
