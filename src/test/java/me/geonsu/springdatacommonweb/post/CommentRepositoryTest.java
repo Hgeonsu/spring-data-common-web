@@ -31,6 +31,7 @@ public class CommentRepositoryTest {
         comment.setPost(savedPost);
         comment.setUp(10);
         comment.setDown(1);
+        comment.setCommentState(CommentState.DRAFT);
         commentRepository.save(comment);
 
         commentRepository.findByPost_Id(savedPost.getId(), CommentOnly.class).forEach(c -> {

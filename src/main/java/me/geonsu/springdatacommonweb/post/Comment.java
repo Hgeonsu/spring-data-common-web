@@ -17,10 +17,13 @@ public class Comment {
 
     private String comment;
 
+    @Enumerated(EnumType.STRING)
+    private CommentState commentState;
+
     /*
-    fetch mode = eager (many to one의 기본값)인 경우, 특정 comment를 조회했을 때, 연관된 post의 데이터도 같이 조회한다.
-    lazy인 경우, 그대로 코멘트만 가져온다.
-     */
+        fetch mode = eager (many to one의 기본값)인 경우, 특정 comment를 조회했을 때, 연관된 post의 데이터도 같이 조회한다.
+        lazy인 경우, 그대로 코멘트만 가져온다.
+         */
     @ManyToOne(fetch = FetchType.EAGER)
     private Post post;
 
@@ -90,6 +93,14 @@ public class Comment {
 
     public void setBest(boolean best) {
         this.best = best;
+    }
+
+    public CommentState getCommentState() {
+        return commentState;
+    }
+
+    public void setCommentState(CommentState commentState) {
+        this.commentState = commentState;
     }
 
     @PrePersist // auditing 관련 설정이 빠지기 때문에 좀 더 general한 기능
