@@ -91,4 +91,11 @@ public class Comment {
     public void setBest(boolean best) {
         this.best = best;
     }
+
+    @PrePersist // auditing 관련 설정이 빠지기 때문에 좀 더 general한 기능
+    public void prePersist() {
+        System.out.println("Pre Persist is called");
+        this.created = new Date();
+        // user도 security 적용한 이후에 사용 가능
+    }
 }
